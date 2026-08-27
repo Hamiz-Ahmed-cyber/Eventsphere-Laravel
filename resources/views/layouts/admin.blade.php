@@ -14,13 +14,14 @@
 
     <div class="flex min-h-screen">
         {{-- Sidebar --}}
-        <aside class="w-64 bg-base-900/80 backdrop-blur-xl border-r border-base-700 flex flex-col">
+        <div class="panel-sidebar-overlay" data-panel-close></div>
+        <aside class="panel-sidebar w-64 bg-base-900/80 backdrop-blur-xl border-r border-base-700 flex flex-col">
             <div class="px-6 py-6 border-b border-base-700">
-                <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-2">
+                <div class="flex items-center justify-between"><a href="{{ route('admin.dashboard') }}" class="flex items-center gap-2">
                     <span class="font-display text-xl font-bold bg-gradient-to-r from-indigo-500 to-pink-500 bg-clip-text text-transparent">
                         EventSphere
                     </span>
-                </a>
+                </a><button type="button" class="panel-sidebar-close" data-panel-close aria-label="Close navigation">×</button></div>
                 <span class="text-xs uppercase tracking-widest text-pink-400 font-semibold">Admin Panel</span>
             </div>
 
@@ -66,7 +67,7 @@
 
         {{-- Main content --}}
         <main class="flex-1">
-            <header class="bg-base-900/60 backdrop-blur-xl border-b border-base-700 px-8 py-5 flex items-center justify-between">
+            <header class="bg-base-900/60 backdrop-blur-xl border-b border-base-700 px-4 sm:px-8 py-5 flex items-center justify-between"><button type="button" class="panel-menu-toggle" data-panel-open aria-label="Open navigation">☰</button>
                 <h1 class="font-display text-2xl font-semibold text-ink-50">@yield('title', 'Dashboard')</h1>
                 <div class="flex items-center gap-3">
                     <span class="text-sm text-ink-300">{{ auth()->user()->name ?? 'Admin' }}</span>
@@ -87,5 +88,16 @@
             </div>
         </main>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const sidebar = document.querySelector('.panel-sidebar');
+            const overlay = document.querySelector('.panel-sidebar-overlay');
+            const open = document.querySelector('[data-panel-open]');
+            const close = () => { sidebar?.classList.remove('is-open'); overlay?.classList.remove('is-open'); };
+            open?.addEventListener('click', () => { sidebar?.classList.add('is-open'); overlay?.classList.add('is-open'); });
+            document.querySelectorAll('[data-panel-close]').forEach(button => button.addEventListener('click', close));
+            sidebar?.querySelectorAll('a').forEach(link => link.addEventListener('click', close));
+        });
+    </script>
 </body>
 </html>

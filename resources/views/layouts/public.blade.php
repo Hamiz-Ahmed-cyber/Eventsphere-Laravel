@@ -23,7 +23,7 @@
     {{-- ============ NAVBAR ============ --}}
     <header class="fixed top-1 left-0 right-0 z-40 backdrop-blur-xl bg-base-950/70 border-b border-base-700/60">
         <nav class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-            <a href="{{ route('home') }}" class="flex items-center gap-2 group">
+            <a href="{{ route('home') }}" class="public-brand flex items-center gap-2 group">
                 <img src="{{ asset('favicon.svg') }}" alt="EventSphere logo" class="w-8 h-8 rounded-lg">
                 <span class="font-display text-xl font-bold bg-gradient-to-r from-indigo-500 to-coral-500 bg-clip-text text-transparent
                              group-hover:from-coral-500 group-hover:to-indigo-500 transition-all duration-500">
@@ -31,7 +31,9 @@
                 </span>
             </a>
 
-            <div class="hidden md:flex items-center gap-8 text-sm font-medium">
+            <button type="button" class="public-menu-toggle" aria-expanded="false" aria-controls="public-navigation" aria-label="Open navigation">☰</button>
+
+            <div id="public-navigation" class="hidden md:flex items-center gap-8 text-sm font-medium">
                 <a href="{{ route('home') }}" class="nav-link {{ request()->routeIs('home') ? 'nav-link-active' : '' }}">Home</a>
                 <a href="{{ route('events.index') }}" class="nav-link {{ request()->routeIs('events.*') ? 'nav-link-active' : '' }}">Events</a>
                 <a href="{{ route('gallery.index') }}" class="nav-link {{ request()->routeIs('gallery.*') ? 'nav-link-active' : '' }}">Gallery</a>
@@ -40,7 +42,7 @@
                 <a href="{{ route('faq') }}" class="nav-link {{ request()->routeIs('faq') ? 'nav-link-active' : '' }}">FAQ</a>
             </div>
 
-            <div class="flex items-center gap-3">
+            <div class="public-account flex items-center gap-3">
                 @auth
                     <a href="{{ auth()->user()->role === 'admin' ? route('admin.dashboard') : (auth()->user()->role === 'organizer' ? route('dashboard') : route('participant.dashboard')) }}"
                        class="btn-outline !py-1.5 !px-4 text-xs">Dashboard</a>
@@ -137,5 +139,16 @@
     </script>
 
     @yield('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const toggle = document.querySelector('.public-menu-toggle');
+            const navigation = document.getElementById('public-navigation');
+            if (!toggle || !navigation) return;
+            toggle.addEventListener('click', () => {
+                const open = navigation.classList.toggle('public-navigation-open');
+                toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+            });
+        });
+    </script>
 </body>
 </html>

@@ -18,6 +18,128 @@
   --color-role-admin: #EC4899;
 }
 
+/* Responsive navigation for all panels */
+.panel-menu-toggle,
+.panel-sidebar-close,
+.public-menu-toggle {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  body[data-panel="admin"] main,
+  body[data-panel="organizer"] main,
+  body[data-panel="participant"] main { min-width: 0; }
+  body[data-panel="admin"] main table,
+  body[data-panel="organizer"] main table,
+  body[data-panel="participant"] main table { min-width: 42rem; }
+  body[data-panel="admin"] main .overflow-x-auto,
+  body[data-panel="organizer"] main .overflow-x-auto,
+  body[data-panel="participant"] main .overflow-x-auto { max-width: 100%; overflow-x: auto; }
+  .panel-sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 40;
+    background: rgba(15, 23, 42, 0.42);
+  }
+  .panel-sidebar-overlay.is-open { display: block; }
+  .panel-sidebar {
+    position: fixed;
+    inset: 0 auto 0 0;
+    z-index: 50;
+    width: min(18rem, 86vw) !important;
+    transform: translateX(-100%);
+    transition: transform 180ms ease;
+    overflow-y: auto;
+  }
+  .panel-sidebar.is-open { transform: translateX(0); }
+  .panel-menu-toggle,
+  .panel-sidebar-close,
+  .public-menu-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .panel-menu-toggle {
+    width: 2.5rem;
+    height: 2.5rem;
+    margin-right: 0.75rem;
+    border: 1px solid #99F6E4;
+    border-radius: 0.75rem;
+    color: #0F766E;
+    background: transparent;
+    font-size: 1.25rem;
+  }
+  .panel-sidebar-close {
+    width: 2rem;
+    height: 2rem;
+    border: 0;
+    background: transparent;
+    color: #0F766E;
+    font-size: 1.5rem;
+  }
+  body[data-panel="admin"] .panel-menu-toggle,
+  body[data-panel="organizer"] .panel-menu-toggle { color: #0F766E; }
+  body[data-panel="participant"] .panel-menu-toggle { border-color: #CBD5E1; color: #4F46E5; }
+
+  body[data-panel="public"] .public-menu-toggle {
+    border: 1px solid #99F6E4;
+    border-radius: 0.75rem;
+    width: 2.5rem;
+    height: 2.5rem;
+    color: #0F766E;
+    background: #FFFFFF;
+    font-size: 1.2rem;
+  }
+  body[data-panel="public"] #public-navigation.public-navigation-open {
+    display: flex;
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    left: 1rem;
+    right: 1rem;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    padding: 0.75rem;
+    background: #FFFFFF;
+    border: 1px solid #CCDED9;
+    border-radius: 1rem;
+    box-shadow: 0 14px 30px rgba(15, 118, 110, 0.12);
+  }
+  body[data-panel="public"] #public-navigation.public-navigation-open .nav-link { padding: 0.7rem 0.5rem; }
+  body[data-panel="public"] .public-account { margin-left: auto; }
+  body[data-panel="public"] header nav { position: relative; padding-left: 1rem; padding-right: 1rem; }
+  body[data-panel="public"] .public-brand {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  body[data-panel="public"] .public-brand span { display: none; }
+  body[data-panel="public"] .public-menu-toggle {
+    position: absolute;
+    left: 1rem;
+  }
+  body[data-panel="public"] main { padding-top: 5.5rem; }
+}
+
+@media (max-width: 640px) {
+  body[data-panel="admin"] main > header,
+  body[data-panel="organizer"] main > header,
+  body[data-panel="participant"] main > header { padding-left: 1rem; padding-right: 1rem; }
+  body[data-panel="admin"] main > div,
+  body[data-panel="organizer"] main > div,
+  body[data-panel="participant"] main > div { padding: 1rem; }
+  body[data-panel="admin"] main > header h1,
+  body[data-panel="organizer"] main > header h1,
+  body[data-panel="participant"] main > header h1 { font-size: 1.2rem; line-height: 1.3; }
+  body[data-panel="admin"] main > header > div span,
+  body[data-panel="organizer"] main > header > div span,
+  body[data-panel="participant"] main > header > div span { display: none; }
+  body[data-panel="public"] .public-account .btn-outline { padding-left: 0.65rem !important; padding-right: 0.65rem !important; }
+  body[data-panel="public"] .public-account .btn-outline { font-size: 0; }
+  body[data-panel="public"] .public-account .btn-outline::before { content: "↗"; font-size: 1rem; }
+}
+
 body {
   background: radial-gradient(circle at top left, #151928 0%, #0B0E17 55%);
   color: var(--color-text);
