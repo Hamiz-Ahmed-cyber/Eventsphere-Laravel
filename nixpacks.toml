@@ -1,0 +1,11 @@
+providers = ["php"]
+
+[phases.build]
+cmds = [
+    "composer install --no-dev --optimize-autoloader --ignore-platform-reqs",
+    "npm install",
+    "npm run build"
+]
+
+[start]
+cmd = "php artisan storage:link && php artisan migrate --force && php -S 0.0.0.0:$PORT -t public"
