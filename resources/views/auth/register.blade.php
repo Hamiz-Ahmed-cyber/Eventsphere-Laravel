@@ -60,10 +60,10 @@
                 <!-- User Type -->
                 <div>
                     <label for="role" class="block text-xs font-semibold text-slate-600 mb-1.5">User Type</label>
-                    <select id="role" name="role" required class="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-slate-800 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 focus:outline-none transition-all">
-                        <option value="">Select your user type</option>
-                        <option value="participant" @selected(old('role') === 'participant')>Participant</option>
-                        <option value="organizer" @selected(old('role') === 'organizer')>Organizer</option>
+                    <select id="role" name="role" required class="w-full px-4 py-2.5 rounded-xl border border-indigo-500 bg-indigo-600 text-white text-sm focus:border-indigo-700 focus:ring-1 focus:ring-indigo-500 focus:outline-none transition-all">
+                        <option value="" class="bg-indigo-600 text-white">Select your user type</option>
+                        <option value="participant" class="bg-indigo-600 text-white" @selected(old('role') === 'participant')>Participant</option>
+                        <option value="organizer" class="bg-indigo-600 text-white" @selected(old('role') === 'organizer')>Organizer</option>
                     </select>
                     @error('role')
                         <p class="text-xs text-rose-500 mt-1.5">{{ $message }}</p>
