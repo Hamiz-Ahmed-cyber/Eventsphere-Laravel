@@ -40,7 +40,7 @@
                     <label for="name" class="block text-xs font-semibold text-slate-600 mb-1.5">Full Name</label>
                     <input id="name" type="text" name="name" value="{{ old('name') }}" required autofocus autocomplete="name"
                            class="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-slate-800 text-sm placeholder:text-slate-400 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 focus:outline-none transition-all"
-                           placeholder="John Doe">
+                           placeholder="Name">
                     @error('name')
                         <p class="text-xs text-rose-500 mt-1.5">⚠ {{ $message }}</p>
                     @enderror
@@ -51,7 +51,7 @@
                     <label for="email" class="block text-xs font-semibold text-slate-600 mb-1.5">Student Email Address</label>
                     <input id="email" type="email" name="email" value="{{ old('email') }}" required autocomplete="username"
                            class="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-slate-800 text-sm placeholder:text-slate-400 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 focus:outline-none transition-all"
-                           placeholder="john.doe@student.test">
+                           placeholder="Email">
                     @error('email')
                         <p class="text-xs text-rose-500 mt-1.5">⚠ {{ $message }}</p>
                     @enderror

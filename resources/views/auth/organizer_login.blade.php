@@ -81,7 +81,7 @@
                 <label for="email" class="block text-xs font-medium text-ink-300 mb-1.5">Organizer Email</label>
                 <input id="email" type="email" name="email" value="{{ old('email') }}" required autofocus autocomplete="username"
                        class="w-full px-4 py-2.5 rounded-xl bg-base-900/80 border border-base-700 text-ink-50 text-sm placeholder:text-ink-500 input-glow focus:outline-none transition-all duration-200"
-                       placeholder="organizer@eventsphere.test">
+                       placeholder="Email address">
                 @error('email')
                     <p class="text-xs text-rose-400 mt-1.5">{{ $message }}</p>
                 @enderror
