@@ -50,10 +50,9 @@ class EventController extends Controller
 
         $existing = Registration::where('event_id', $event->event_id)
             ->where('student_id', $userId)
-            ->where('status', '!=', 'cancelled')
             ->first();
 
-        if ($existing) {
+        if ($existing && $existing->status !== 'cancelled') {
             return back()->with('error', 'You are already registered for this event.');
         }
 
@@ -67,21 +66,29 @@ class EventController extends Controller
                 return back()->with('error', 'This event is full and waitlisting is not enabled.');
             }
 
-            EventWaitlist::create([
-                'user_id' => $userId,
-                'event_id' => $event->event_id,
-                'status' => 'waiting',
-            ]);
+            EventWaitlist::firstOrCreate(
+                ['user_id' => $userId, 'event_id' => $event->event_id, 'status' => 'waiting'],
+                ['waitlist_time' => now()]
+            );
 
             return back()->with('success', 'Event is full — you\'ve been added to the waitlist.');
         }
 
-        Registration::create([
-            'event_id' => $event->event_id,
-            'student_id' => $userId,
-            'status' => 'confirmed',
-            'qr_code' => Str::uuid(),
-        ]);
+        if ($existing) {
+            $existing->update([
+                'status' => 'confirmed',
+                'qr_code' => Str::uuid(),
+                'registered_on' => now(),
+            ]);
+        } else {
+            Registration::create([
+                'event_id' => $event->event_id,
+                'student_id' => $userId,
+                'status' => 'confirmed',
+                'qr_code' => Str::uuid(),
+                'registered_on' => now(),
+            ]);
+        }
 
         $seating->increment('seats_booked');
 

@@ -54,12 +54,25 @@ class RegistrationController extends Controller
             ->first();
 
         if ($nextInLine) {
-            Registration::create([
-                'event_id' => $registration->event_id,
-                'student_id' => $nextInLine->user_id,
-                'status' => 'confirmed',
-                'qr_code' => \Illuminate\Support\Str::uuid(),
-            ]);
+            $promotedRegistration = Registration::where('event_id', $registration->event_id)
+                ->where('student_id', $nextInLine->user_id)
+                ->first();
+
+            if ($promotedRegistration) {
+                $promotedRegistration->update([
+                    'status' => 'confirmed',
+                    'qr_code' => \Illuminate\Support\Str::uuid(),
+                    'registered_on' => now(),
+                ]);
+            } else {
+                Registration::create([
+                    'event_id' => $registration->event_id,
+                    'student_id' => $nextInLine->user_id,
+                    'status' => 'confirmed',
+                    'qr_code' => \Illuminate\Support\Str::uuid(),
+                    'registered_on' => now(),
+                ]);
+            }
             $nextInLine->update(['status' => 'confirmed']);
             $seating?->increment('seats_booked');
 

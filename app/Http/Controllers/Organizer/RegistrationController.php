@@ -42,12 +42,25 @@ class RegistrationController extends OrganizerController
                 $next = EventWaitlist::where('event_id', $registration->event_id)
                     ->where('status', 'waiting')->orderBy('waitlist_time')->first();
                 if ($next) {
-                    Registration::create([
-                        'event_id' => $registration->event_id,
-                        'student_id' => $next->user_id,
-                        'status' => 'confirmed',
-                        'qr_code' => Str::uuid(),
-                    ]);
+                    $promotedRegistration = Registration::where('event_id', $registration->event_id)
+                        ->where('student_id', $next->user_id)
+                        ->first();
+
+                    if ($promotedRegistration) {
+                        $promotedRegistration->update([
+                            'status' => 'confirmed',
+                            'qr_code' => Str::uuid(),
+                            'registered_on' => now(),
+                        ]);
+                    } else {
+                        Registration::create([
+                            'event_id' => $registration->event_id,
+                            'student_id' => $next->user_id,
+                            'status' => 'confirmed',
+                            'qr_code' => Str::uuid(),
+                            'registered_on' => now(),
+                        ]);
+                    }
                     $next->update(['status' => 'confirmed']);
                     $seating?->increment('seats_booked');
                 }
