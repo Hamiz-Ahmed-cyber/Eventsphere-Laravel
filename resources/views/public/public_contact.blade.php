@@ -21,22 +21,22 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
             <div>
                 <label class="text-xs text-ink-300 mb-1 block">Full Name</label>
-                <input type="text" name="name" value="{{ old('name') }}" required class="w-full px-4 py-2.5">
+                <input type="text" name="name" value="{{ old('name') }}" required class="w-full px-4 py-2.5 placeholder:text-ink-300" placeholder="Your Name">
                 @error('name') <p class="text-xs text-rose-400 mt-1">{{ $message }}</p> @enderror
             </div>
             <div>
                 <label class="text-xs text-ink-300 mb-1 block">Email</label>
-                <input type="email" name="email" value="{{ old('email') }}" required class="w-full px-4 py-2.5">
+                <input type="email" name="email" value="{{ old('email') }}" required class="w-full px-4 py-2.5 placeholder:text-ink-300" placeholder="Your Email">
                 @error('email') <p class="text-xs text-rose-400 mt-1">{{ $message }}</p> @enderror
             </div>
         </div>
         <div>
             <label class="text-xs text-ink-300 mb-1 block">Subject</label>
-            <input type="text" name="subject" value="{{ old('subject') }}" required class="w-full px-4 py-2.5">
+            <input type="text" name="subject" value="{{ old('subject') }}" required class="w-full px-4 py-2.5 placeholder:text-ink-300" placeholder="Subject">
         </div>
         <div>
             <label class="text-xs text-ink-300 mb-1 block">Message</label>
-            <textarea name="message" rows="5" required class="w-full px-4 py-2.5">{{ old('message') }}</textarea>
+            <textarea name="message" rows="5" required class="w-full px-4 py-2.5 placeholder:text-ink-300" placeholder="Your Message">{{ old('message') }}</textarea>
             @error('message') <p class="text-xs text-rose-400 mt-1">{{ $message }}</p> @enderror
         </div>
         <button type="submit" class="btn-primary w-full justify-center !py-3">Send Message</button>
