@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\EventApprovalController;
 use App\Http\Controllers\Admin\ModerationController;
 use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\UserManagementController;
+use App\Http\Controllers\Admin\ContactMessageController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -47,4 +48,8 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
     Route::get('/reports/participation/{format?}', [ReportController::class, 'participation'])->name('reports.participation');
     Route::get('/reports/user-growth', [ReportController::class, 'userGrowth'])->name('reports.user-growth');
+
+    // Contact inquiries
+    Route::get('/contacts', [ContactMessageController::class, 'index'])->name('contacts.index');
+    Route::delete('/contacts/{contact}', [ContactMessageController::class, 'destroy'])->name('contacts.destroy');
 });

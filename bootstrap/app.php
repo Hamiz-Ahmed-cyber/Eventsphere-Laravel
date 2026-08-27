@@ -11,10 +11,16 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-    $middleware->alias([
-        'role' => \App\Http\Middleware\EnsureRole::class,
-    ]);
-})
+        $middleware->alias([
+            'role' => \App\Http\Middleware\EnsureRole::class,
+        ]);
+        $middleware->redirectTo(function ($request) {
+            if ($request->is('admin') || $request->is('admin/*')) {
+                return route('admin.login');
+            }
+            return route('login');
+        });
+    })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
     })->create();

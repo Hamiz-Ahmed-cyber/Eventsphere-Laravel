@@ -10,7 +10,16 @@ class Feedback extends Model
     protected $primaryKey = 'feedback_id';
     public $timestamps = false;
 
-    protected $fillable = ['event_id', 'student_id', 'rating', 'comments', 'status', 'submitted_on'];
+    protected $fillable = [
+        'event_id', 'student_id', 'rating', 'organizational_quality', 'content_relevance',
+        'venue_rating', 'coordination_rating', 'technical_arrangements', 'hospitality_rating',
+        'comments', 'status', 'submitted_on',
+    ];
+
+    protected function casts(): array
+    {
+        return ['submitted_on' => 'datetime'];
+    }
 
     public function event()
     {

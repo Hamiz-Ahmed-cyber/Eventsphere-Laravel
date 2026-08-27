@@ -19,4 +19,11 @@ class Registration extends Model
     {
         return $this->belongsTo(User::class, 'student_id');
     }
+
+    public function getAttendanceAttribute(): ?Attendance
+    {
+        return Attendance::where('event_id', $this->event_id)
+            ->where('student_id', $this->student_id)
+            ->first();
+    }
 }

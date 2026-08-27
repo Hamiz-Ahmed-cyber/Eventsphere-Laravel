@@ -1,0 +1,15 @@
+@csrf
+<div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+    <div class="md:col-span-2"><label class="block text-sm text-ink-300 mb-1">Title</label><input name="title" value="{{ old('title', $event->title ?? '') }}" required class="organizer-event-field w-full"></div>
+    <div><label class="block text-sm text-ink-300 mb-1">Category</label><input list="event-categories" name="category" value="{{ old('category', $event->category ?? '') }}" required class="organizer-event-field w-full"><datalist id="event-categories"><option value="Technical"><option value="Cultural"><option value="Sports"><option value="Workshop"><option value="Seminar"></datalist></div>
+    <div><label class="block text-sm text-ink-300 mb-1">Venue</label><input name="venue" value="{{ old('venue', $event->venue ?? '') }}" required class="organizer-event-field w-full"></div>
+    <div><label class="block text-sm text-ink-300 mb-1">Date</label><input type="date" name="event_date" value="{{ old('event_date', isset($event) ? $event->event_date->format('Y-m-d') : '') }}" required class="w-full"></div>
+    <div><label class="block text-sm text-ink-300 mb-1">Time</label><input type="time" name="event_time" value="{{ old('event_time', isset($event) ? \Carbon\Carbon::parse($event->event_time)->format('H:i') : '') }}" required class="w-full"></div>
+    <div><label class="block text-sm text-ink-300 mb-1">Maximum participants</label><input type="number" min="1" name="max_participants" value="{{ old('max_participants', $event->max_participants ?? 1) }}" required class="w-full"></div>
+    <div><label class="block text-sm text-ink-300 mb-1">Certificate fee</label><input type="number" min="0" step="0.01" name="certificate_fee" value="{{ old('certificate_fee', $event->certificate_fee ?? 0) }}" class="w-full"></div>
+    <div class="md:col-span-2"><label class="block text-sm text-ink-300 mb-1">Description</label><textarea name="description" rows="5" required class="w-full">{{ old('description', $event->description ?? '') }}</textarea></div>
+    <div><label class="block text-sm text-ink-300 mb-1">Banner image</label><input type="file" name="banner_image" accept="image/*" class="w-full">@if(!empty($event?->banner_image))<p class="text-xs text-ink-500 mt-1">Existing banner will be kept unless replaced.</p>@endif</div>
+    <div><label class="block text-sm text-ink-300 mb-1">Rulebook</label><input type="file" name="rulebook" accept=".pdf,.doc,.docx" class="w-full"></div>
+    <div class="md:col-span-2 flex flex-wrap gap-6 text-sm text-ink-300"><label><input type="checkbox" name="waitlist_enabled" value="1" @checked(old('waitlist_enabled', $event->waitlist_enabled ?? true))> Enable waitlist</label><label><input type="checkbox" name="cancellation_allowed" value="1" @checked(old('cancellation_allowed', $event->cancellation_allowed ?? true))> Allow cancellation</label></div>
+</div>
+<div class="mt-6 flex gap-3"><button class="btn-primary" type="submit">{{ $submitLabel }}</button><a href="{{ route('organizer.events.index') }}" class="btn-outline">Cancel</a></div>

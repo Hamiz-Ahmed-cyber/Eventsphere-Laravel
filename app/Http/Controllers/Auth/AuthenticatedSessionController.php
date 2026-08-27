@@ -7,6 +7,7 @@ use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 use Illuminate\View\View;
 
 class AuthenticatedSessionController extends Controller
@@ -28,7 +29,10 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        // Explicit role-based redirect — deliberately ignores any "intended"
+        // URL Laravel may have stored (e.g. from visiting /admin while logged out),
+        // so a participant never lands on the admin panel or vice versa.
+        return redirect()->to($this->redirectPathForRole(Auth::user()->role));
     }
 
     /**
@@ -39,9 +43,21 @@ class AuthenticatedSessionController extends Controller
         Auth::guard('web')->logout();
 
         $request->session()->invalidate();
-
         $request->session()->regenerateToken();
 
         return redirect('/');
+    }
+
+    /**
+     * Map a user's role to their panel's home route.
+     */
+    protected function redirectPathForRole(string $role): string
+    {
+        return match ($role) {
+            'admin'       => route('admin.dashboard'),
+            'organizer'   => route('organizer.dashboard'),
+            'participant' => route('participant.dashboard'),
+            default       => route('home'),
+        };
     }
 }
